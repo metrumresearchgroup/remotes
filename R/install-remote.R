@@ -20,10 +20,10 @@ install_remote <- function(remote, ..., quiet = FALSE) {
     
       l <- list(...)
     
-      if (!require('devtools',character.only = TRUE))
-        install.packages('devtools',dep=TRUE)
+      if (!require('devtools', character.only = TRUE))
+        install.packages('devtools', dep=TRUE, ...)
        
-      devtools::build(source,path = l$destdir)
+      devtools::build(source, path = l$destdir)
     
       unlink(source, recursive = TRUE)
     
