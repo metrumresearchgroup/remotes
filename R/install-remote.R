@@ -15,20 +15,24 @@ install_remote <- function(remote, ..., quiet = FALSE) {
   on.exit(unlink(bundle), add = TRUE)
 
   source <- source_pkg(bundle, subdir = remote$subdir)
-  
+
   on.exit({
-    
+
       l <- list(...)
-    
-      if (!require('devtools', character.only = TRUE, quietly = FALSE, warn.conflicts = TRUE)) {
-        install.packages('devtools', dep=TRUE, ...)
-        require('devtools', character.only = TRUE, quietly = FALSE, warn.conflicts = TRUE)
+
+      suppressWarnings({
+
+        if (!require('devtools', character.only = TRUE, quietly = FALSE, warn.conflicts = TRUE)) {
+          install.packages('devtools', dep=TRUE, ...)
+          require('devtools', character.only = TRUE, quietly = FALSE, warn.conflicts = TRUE)
         }
-    
-      devtools::build(source, path = l$destdir)
-    
+
+        devtools::build(source, path = l$destdir)
+
+      })
+
       unlink(source, recursive = TRUE)
-    
+
       }, add = TRUE)
 
   add_metadata(source, remote_metadata(remote, bundle, source))
